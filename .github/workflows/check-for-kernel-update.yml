@@ -19,7 +19,12 @@ jobs:
           _kernel_tags=($(git -c 'versionsort.suffix=-' \
             ls-remote --exit-code --refs --sort='version:refname' --tags https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux '*.*' \
             | cut --delimiter='/' --fields=3))
-          echo "_latest_kver=$(echo ${_kernel_tags[-1]} | cut -c2-)" >> $GITHUB_OUTPUT
+          for (( i=1; i<"${#_kernel_tags[@]}"; i++ )); do
+            if [[ "${_kernel_tags[-i]}" != *rc* ]]; then
+              echo "_latest_kver=$(echo ${_kernel_tags[-i]} | cut -c2-)" >> $GITHUB_OUTPUT
+              break
+            fi
+          done
 
       - name: Get Current Kernel Version
         id: get_current_kver
