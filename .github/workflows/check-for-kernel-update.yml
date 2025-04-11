@@ -2,7 +2,7 @@ name: Check for Kernel Update
 
 on:
   schedule:
-      - cron: '0 */12 * * *'
+      - cron: '0 */1 * * *'
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
             ls-remote --exit-code --refs --sort='version:refname' --tags https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux '*.*' \
             | cut --delimiter='/' --fields=3))
           for (( i=1; i<${#_kernel_tags[@]}; i++ )); do
-            if [[ "${_kernel_tags[-i]}" != *rc* ]]; then
+            if [ "${_kernel_tags[-i]}" != *rc* ]; then
               echo "_latest_kver=$(echo ${_kernel_tags[-i]} | cut -c2-)" >> $GITHUB_OUTPUT
               break
             fi
@@ -60,7 +60,7 @@ jobs:
           for (( i=0; i<${#_kver}; i++ )); do
             _cur_char="${_kver:$i:1}"
 
-            if [[ "$_cur_char" == "." || "$_cur_char" == "-" ]]; then
+            if [ "$_cur_char" == "." || "$_cur_char" == "-" ]; then
               _cur_index=$((_cur_index + 1))
             else
               _kver_split[$_cur_index]+="$_cur_char"
