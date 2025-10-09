@@ -32,8 +32,8 @@ jobs:
       - name: Get Current Kernel Version
         id: get_current_kver
         run: |
-          _base_kver=$(cat kernel-cachyos-lto.spec | sed -n '15p' | cut -c19-)
-          _stable_kver=$(cat kernel-cachyos-lto.spec | sed -n '16p' | cut -c21-)
+          _base_kver=$(cat kernel-cachyos-server.spec | sed -n '15p' | cut -c19-)
+          _stable_kver=$(cat kernel-cachyos-server.spec | sed -n '16p' | cut -c21-)
 
           if [ "${_stable_kver}" == "0" ]; then
             echo "_current_kver=${_base_kver}" >> $GITHUB_OUTPUT
@@ -78,8 +78,8 @@ jobs:
             _sub="0"
           fi
 
-          sed -i "s/_basekver .*/_basekver ${_base_kver}/" kernel-cachyos-lto.spec
-          sed -i "s/_stablekver .*/_stablekver ${_sub}/" kernel-cachyos-lto.spec
+          sed -i "s/_basekver .*/_basekver ${_base_kver}/" kernel-cachyos-server.spec
+          sed -i "s/_stablekver .*/_stablekver ${_sub}/" kernel-cachyos-server.spec
 
       - name: Push modified specfile
         if: steps.compare_kvers.outputs._match == 0
@@ -89,7 +89,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           message: "Update to latest kernel version"
           files: |
-            kernel-cachyos-lto.spec
+            kernel-cachyos-server.spec
 
   trigger-copr-build:
     runs-on: ubuntu-latest
@@ -112,4 +112,4 @@ jobs:
           copr_url = https://copr.fedorainfracloud.org
           EOF
 
-          copr-cli build --enable-net vncvltvred/kernel-cachyos-fedora kernel-cachyos-lto
+          copr-cli build --enable-net vncvltvred/kernel-cachyos-server kernel-cachyos-server
