@@ -104,6 +104,7 @@ jobs:
 
       - name: Trigger COPR Build
         run: |
+		  touch ~/.config/copr
           tee ~/.config/copr > /dev/null <<EOF
           [copr-cli]
           login = ${{ secrets.COPR_LOGIN }}
