@@ -113,4 +113,4 @@ jobs:
           copr_url = https://copr.fedorainfracloud.org
           EOF
 
-          copr-cli build --enable-net on vncvltvred/kernel-cachyos-server kernel-cachyos-server
+          copr-cli build --chroot fedora-42-x86_64 --enable-net on --timeout 72000 vncvltvred/kernel-cachyos-server kernel-cachyos-server.spec
