@@ -73,7 +73,7 @@
 Name:           kernel-cachyos-server
 Summary:        Linux EEVDF %{?_lto_args:+ LTO }Cachy Sauce Kernel by CachyOS with other patches and improvements.
 Version:        %{_basekver}.%{_stablekver}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPL-2.0-only
 URL:            https://cachyos.org
 
@@ -163,7 +163,7 @@ Patch10:        %{_patch_src}/misc/nvidia/0001-Enable-atomic-kernel-modesetting-
     scripts/config -e CONFIG_ANDROID -e CONFIG_ANDROID_BINDER_IPC -e CONFIG_ANDROID_BINDERFS
     scripts/config -u CONFIG_ANDROID_BINDER_IPC_SELFTEST
 
-    scripts/config --set-str CONFIG_ANDROID_BINDER_DEVICES ""
+    scripts/config --set-str CONFIG_ANDROID_BINDER_DEVICES "binder,hwbinder,vndbinder"
 
     # Use SElinux by default
     # https://github.com/sirlucjan/copr-linux-cachyos/pull/1
