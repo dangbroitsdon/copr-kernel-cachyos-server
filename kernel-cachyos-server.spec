@@ -13,7 +13,7 @@
 %define _basekver 6.17
 %define _stablekver 5
 %define _rpmver %{version}-%{release}
-%define _kver %{_rpmver}.%{_arch}
+%define _kver %{_basekver}.%{_stablekver}
 
 %if %{_stablekver} == 0
     %define _tarkver %{_basekver}
