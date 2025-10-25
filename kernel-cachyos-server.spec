@@ -1,5 +1,3 @@
-# Maintainer: Eric Naim <dnaim@cachyos.org>
-
 # Fedora bits
 %define __spec_install_post %{__os_install_post}
 %define _build_id_links none
@@ -73,7 +71,7 @@
 Name:           kernel-cachyos-server
 Summary:        Linux EEVDF %{?_lto_args:+ LTO }Cachy Sauce Kernel by CachyOS with other patches and improvements.
 Version:        %{_basekver}.%{_stablekver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 License:        GPL-2.0-only
 URL:            https://cachyos.org
 
@@ -115,7 +113,7 @@ BuildRequires:  gcc-c++
 
 # Indexes 0-9 are reserved for the kernel. 10-19 will be reserved for NVIDIA
 Source0:        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-%{_tarkver}.tar.xz
-Source1:        https://raw.githubusercontent.com/CachyOS/linux-cachyos/master/linux-cachyos/config
+Source1:        https://raw.githubusercontent.com/CachyOS/linux-cachyos/master/linux-cachyos-server/config
 
 %if %{_build_minimal}
 # The default modprobed.db provided is used for linux-cachyos CI.
@@ -128,7 +126,7 @@ Source2:        https://raw.githubusercontent.com/Frogging-Family/linux-tkg/mast
 Source10:       https://github.com/NVIDIA/open-gpu-kernel-modules/archive/%{_nv_ver}/%{_nv_pkg}.tar.gz
 %endif
 
-Patch0:         %{_patch_src}/all/0001-cachyos-base-all.patch
+Patch0:         https://raw.githubusercontent.com/dangbroitsdon/copr-kernel-cachyos-server/refs/heads/main/0001-cachyos-base-all.patch
 
 %if %{_build_lto}
 Patch2:         %{_patch_src}/misc/dkms-clang.patch
@@ -158,12 +156,6 @@ Patch10:        %{_patch_src}/misc/nvidia/0001-Enable-atomic-kernel-modesetting-
 
     # transparent hugepages
     scripts/config -d TRANSPARENT_HUGEPAGE_MADVISE -e TRANSPARENT_HUGEPAGE_ALWAYS
-
-    # enable waydroid support by default
-    scripts/config -e CONFIG_ANDROID -e CONFIG_ANDROID_BINDER_IPC -e CONFIG_ANDROID_BINDERFS
-    scripts/config -u CONFIG_ANDROID_BINDER_IPC_SELFTEST
-
-    scripts/config --set-str CONFIG_ANDROID_BINDER_DEVICES "binder,hwbinder,vndbinder"
 
     # Use SElinux by default
     # https://github.com/sirlucjan/copr-linux-cachyos/pull/1
