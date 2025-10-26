@@ -1,0 +1,1 @@
+# will eventually be rebased against fedora official kernel and hardened with less of a reliance on cachyos and more of a server-oriented appeal for myself
